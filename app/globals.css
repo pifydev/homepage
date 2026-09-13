@@ -1,0 +1,509 @@
+@import "tailwindcss";
+
+/* Class-based dark mode so the Auto / Light / Dark control can drive it. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tokens. See design/DESIGN.md for the contrast table behind these values. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #f4f4f5;
+  --fg: #09090b;
+  --muted: #52525b;
+  --line: #e4e4e7;
+  --accent: #6366f1;
+  --accent-text: #4f46e5;
+  --accent-fg: #ffffff;
+  --selection-bg: #4f46e5; /* white on this is 6.3:1 */
+  --selection-fg: #ffffff;
+  --u: 1rem; /* one logo cell */
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #09090b;
+  --surface: #18181b;
+  --fg: #fafafa;
+  --muted: #a1a1aa;
+  --line: #27272a;
+  --accent: #818cf8;
+  --accent-text: #818cf8;
+  --accent-fg: #09090b;
+  --selection-bg: #818cf8; /* near-black on this is 6.7:1 */
+  --selection-fg: #09090b;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-fg: var(--accent-fg);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius-*: initial;
+  --radius: 0;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  /* Keyboard focus is the brand cell: same indigo, square corners. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--selection-bg);
+    color: var(--selection-fg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-x {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 72rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 40rem) {
+    .container-x {
+      padding-inline: 2rem;
+    }
+  }
+  @media (min-width: 64rem) {
+    .container-x {
+      padding-inline: 3rem;
+    }
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -100%;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--fg);
+    color: var(--bg);
+    font-size: 0.875rem;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Mono micro-label: machine-facing text. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* The cell. */
+  .cell {
+    display: inline-block;
+    flex: none;
+    width: var(--u);
+    height: var(--u);
+    background: var(--accent);
+  }
+  .cell-sm {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  .cell-hollow {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--muted);
+  }
+  .cell-fg {
+    background: var(--fg);
+  }
+
+  /* Headline full stop: scales with the type. */
+  .cell-stop {
+    display: inline-block;
+    width: 0.55em;
+    height: 0.55em;
+    margin-left: 0.12em;
+    background: var(--accent);
+    vertical-align: baseline;
+  }
+
+  /* The one load animation: the accent cell snaps in from two cells right, one up. */
+  @keyframes snap-in {
+    0% {
+      transform: translate(200%, -100%);
+      opacity: 0;
+    }
+    1% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+  }
+  .snap {
+    animation: snap-in 360ms steps(3, end) 240ms both;
+  }
+  .mark-accent {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .snap {
+      animation: none;
+    }
+  }
+
+  .h1 {
+    font-size: clamp(2.5rem, 1.6rem + 3vw, 3.5rem);
+    line-height: 1.05;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .h2 {
+    font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.25rem);
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: clamp(1.125rem, 1rem + 0.4vw, 1.25rem);
+    line-height: 1.55;
+  }
+
+  .prose-x {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+  .prose-x p + p {
+    margin-top: 1.5rem;
+  }
+  .prose-x code,
+  .code-inline {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--surface);
+    padding: 0.05em 0.35em;
+  }
+  .prose-x a,
+  .link {
+    text-decoration: underline;
+    text-decoration-color: var(--muted);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 150ms;
+  }
+  .prose-x a:hover,
+  .link:hover {
+    text-decoration-color: var(--accent);
+  }
+
+  /* Buttons: 44px tall, square, two levels. */
+  .btn {
+    display: inline-flex;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-inline: 1.25rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition:
+      background-color 150ms,
+      color 150ms,
+      border-color 150ms;
+  }
+  .btn-primary {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .btn-primary:hover {
+    background: var(--muted);
+  }
+  .btn-secondary {
+    border: 1px solid var(--line);
+    color: var(--fg);
+  }
+  .btn-secondary:hover {
+    background: var(--surface);
+    border-color: var(--muted);
+  }
+
+  /* Section opener: hairline with one cell at the left content edge. */
+  .section-rule {
+    position: relative;
+    border-top: 1px solid var(--line);
+    padding-top: 1.75rem;
+  }
+  .section-rule > .cell {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  /* Command line with the cell as prompt and a copy button. */
+  .cmd {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    min-height: 3.25rem;
+  }
+  .cmd__prompt {
+    align-self: center;
+    margin-left: 0.75rem;
+  }
+  .cmd__pre {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    padding: 0.9375rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .cmd--lg .cmd__pre {
+    font-size: 0.9375rem;
+    padding-block: 1.0625rem;
+  }
+  /* Commands wrap rather than scroll: hidden text is worse than a second line. */
+  .cmd__code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .cmd__copy {
+    flex: none;
+    min-width: 4rem;
+    padding-inline: 0.75rem;
+    border-left: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition:
+      background-color 150ms,
+      color 150ms;
+  }
+  .cmd__copy:hover {
+    background: var(--surface);
+    color: var(--fg);
+  }
+  .cmd__copy[data-state="copied"] {
+    color: var(--fg);
+  }
+  .cmd__copy[data-state="failed"] {
+    color: var(--fg);
+    font-size: 0.6875rem;
+  }
+
+  /* Tabbed install block: bar of tabs above a .cmd. */
+  .install {
+    border: 1px solid var(--line);
+  }
+  .install .cmd {
+    border: 0;
+  }
+  .install__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--line);
+    padding-inline: 0.5rem;
+  }
+  /* No overflow clipping here: the focus ring and the cell marker draw outside the tab box. */
+  .install__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  .install__tab {
+    position: relative;
+    flex: none;
+    min-height: 2.75rem;
+    padding: 0.75rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 150ms;
+  }
+  .install__tab:hover {
+    color: var(--fg);
+  }
+  .install__tab[aria-selected="true"] {
+    color: var(--fg);
+  }
+  /* The active tab is marked by the cell, not an underline. */
+  .install__tab[aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -0.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    transform: translateX(-50%);
+    background: var(--accent);
+  }
+  .install__note {
+    padding-right: 0.5rem;
+    white-space: nowrap;
+  }
+
+  /* Auto / Light / Dark. Active segment is filled with the text colour. */
+  .theme-toggle {
+    display: inline-flex;
+    border: 1px solid var(--line);
+  }
+  .theme-toggle__option {
+    min-height: 2.75rem;
+    padding-inline: 0.625rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition:
+      background-color 150ms,
+      color 150ms;
+  }
+  .theme-toggle__option + .theme-toggle__option {
+    border-left: 1px solid var(--line);
+  }
+  .theme-toggle__option:hover {
+    color: var(--fg);
+  }
+  .theme-toggle__option[aria-checked="true"] {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  /* Bundle chips in the catalog. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.75rem;
+    padding-inline: 0.875rem;
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--fg);
+    transition:
+      background-color 150ms,
+      border-color 150ms;
+  }
+  .chip:hover {
+    background: var(--surface);
+  }
+  .chip[aria-pressed="true"] {
+    border-color: var(--fg);
+  }
+  .chip__count {
+    color: var(--muted);
+  }
+
+  /* Ledger rows. */
+  .ledger-row {
+    border-top: 1px solid var(--line);
+    transition: background-color 150ms;
+  }
+  .ledger-row:hover,
+  .ledger-row:focus-within {
+    background: var(--surface);
+  }
+
+  /* 4x4 grid of cells. */
+  .grid16 {
+    display: grid;
+    grid-template-columns: repeat(4, var(--grid16-cell, 1.5rem));
+    gap: var(--grid16-gap, 0.25rem);
+  }
+  .grid16 > span {
+    width: var(--grid16-cell, 1.5rem);
+    height: var(--grid16-cell, 1.5rem);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--muted);
+    transition:
+      background-color 150ms,
+      box-shadow 150ms;
+  }
+  .grid16 > span[data-on="true"] {
+    background: var(--accent);
+    box-shadow: none;
+  }
+
+  /* Phones: let commands wrap, drop the tab-bar note, tighten the header. */
+  @media (width < 40rem) {
+    .install__note {
+      display: none;
+    }
+    .cmd--lg .cmd__pre {
+      font-size: 0.875rem;
+    }
+    .theme-toggle__option {
+      padding-inline: 0.375rem;
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

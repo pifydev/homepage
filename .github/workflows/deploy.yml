@@ -1,0 +1,65 @@
+name: Next.js Application Build
+
+# Build check for every pull request and every push to main.
+# Deployment itself is done by the Vercel Git integration (same setup as
+# pifydev/docs): pushes to main become production deployments of pify.dev,
+# pull requests get preview URLs from vercel[bot].
+
+on:
+  pull_request:
+    paths:
+      - "app/**"
+      - "components/**"
+      - "lib/**"
+      - "public/**"
+      - "next.config.ts"
+      - "postcss.config.mjs"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/deploy.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - "components/**"
+      - "lib/**"
+      - "public/**"
+      - "next.config.ts"
+      - "postcss.config.mjs"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: next-build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  build:
+    name: Build Next.js application
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Check UI text for em dashes
+        run: |
+          if grep -rn --include='*.tsx' --include='*.ts' -P '\x{2014}' app components lib; then
+            echo "Em dash found in UI text; use a comma, colon or period instead."
+            exit 1
+          fi
