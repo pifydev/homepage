@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { WeeklyDownloads } from "@/lib/downloads";
 import {
   bundles,
+  NPM_ORG_URL,
   npmUrl,
   packages,
   repoUrl,
@@ -10,6 +12,9 @@ import {
   type PifyPackage,
 } from "@/lib/packages";
 import { CopyCommand } from "./copy-command";
+
+/** Fixed locale so server and client render the same digits. */
+const number = new Intl.NumberFormat("en-US");
 
 type Chip = BundleName | "suite";
 
@@ -33,7 +38,7 @@ interface Group {
  * and pressing a bundle chip lights the bundle and rewrites the install
  * line beneath the grid.
  */
-export function PackagesCatalog() {
+export function PackagesCatalog({ downloads }: { downloads: WeeklyDownloads }) {
   const [active, setActive] = useState<Chip | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
 
@@ -98,6 +103,30 @@ export function PackagesCatalog() {
               ))}
             </div>
             <p className="label mt-4">The logo is a 4x4 grid. So is the catalog.</p>
+
+            <div className="mt-6 border-t border-line pt-4">
+              <p className="label">Last 7 days on npm</p>
+              {downloads.total !== null ? (
+                <>
+                  <p className="mt-1 text-[28px] font-semibold tracking-[-0.02em] tabular-nums">
+                    {number.format(downloads.total)}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">
+                    downloads across all sixteen packages
+                    {downloads.range ? `, ${downloads.range}` : ""}. Counted by{" "}
+                    <a href={NPM_ORG_URL} className="link text-fg">
+                      npm
+                    </a>
+                    , refreshed hourly.
+                  </p>
+                </>
+              ) : (
+                <p className="mt-1 text-sm leading-relaxed text-muted">
+                  Download counts from npm are unavailable right now.
+                </p>
+              )}
+            </div>
+
             <div className="mt-6">
               <p className="label mb-2" id="bundle-command-label">
                 {active ? `Install ${active}` : "Install everything"}
@@ -142,13 +171,20 @@ export function PackagesCatalog() {
                           <p className="col-span-2 col-start-2 row-start-2 text-sm leading-relaxed text-muted sm:col-span-1 sm:col-start-3 sm:row-start-1">
                             {p.description}
                           </p>
-                          <a
-                            href={npmUrl(p.npm)}
-                            className="label col-start-3 row-start-1 -my-3 -mr-2 inline-flex min-h-11 items-center self-center px-2 text-muted transition-colors hover:text-fg sm:col-start-4"
-                            aria-label={`${p.npm} on npm`}
-                          >
-                            npm
-                          </a>
+                          <div className="col-start-3 row-start-1 flex items-center justify-end gap-3 self-center sm:col-start-4">
+                            {typeof downloads.perPackage[p.name] === "number" ? (
+                              <span className="label whitespace-nowrap tabular-nums">
+                                {number.format(downloads.perPackage[p.name] as number)} / wk
+                              </span>
+                            ) : null}
+                            <a
+                              href={npmUrl(p.npm)}
+                              className="label -my-3 -mr-2 inline-flex min-h-11 items-center px-2 text-muted transition-colors hover:text-fg"
+                              aria-label={`${p.npm} on npm`}
+                            >
+                              npm
+                            </a>
+                          </div>
                         </div>
                       </li>
                     );

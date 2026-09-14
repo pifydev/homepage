@@ -16,6 +16,7 @@
   --accent-fg: #ffffff;
   --selection-bg: #4f46e5; /* white on this is 6.3:1 */
   --selection-fg: #ffffff;
+  --grid-dot: #d4d4d8; /* the page-scale pixel grid, non-text */
   --u: 1rem; /* one logo cell */
 }
 
@@ -31,6 +32,7 @@
   --accent-fg: #09090b;
   --selection-bg: #818cf8; /* near-black on this is 6.7:1 */
   --selection-fg: #09090b;
+  --grid-dot: #2c2c31;
 }
 
 @theme inline {
@@ -54,8 +56,12 @@
     scroll-padding-top: 5rem;
   }
 
+  /* Dot grid at 2u (32px): the logo's pixel grid at page scale, kept faint so text over it stays AA. */
   body {
     background-color: var(--bg);
+    background-image: radial-gradient(var(--grid-dot) 1px, transparent 1.6px);
+    background-size: 2rem 2rem;
+    background-position: 0 0;
     color: var(--fg);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;

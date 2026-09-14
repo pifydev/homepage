@@ -8,6 +8,9 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Why } from "@/components/why";
 
+/** Download counts come from npm; the page is re-rendered at most once an hour. */
+export const revalidate = 3600;
+
 export default function Page() {
   return (
     <>

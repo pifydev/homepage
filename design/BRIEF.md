@@ -68,7 +68,7 @@ Shared DNA: one real install command front and center with a tab switcher, minim
 - Next.js 16 App Router, Tailwind CSS v4, TypeScript, `next/font/local`. Single page at `/` with in-page anchors. Deploy target Vercel, domain https://pify.dev.
 - Light and dark must both work with a toggle (Auto/Light/Dark). Brand already ships both logo variants.
 - Only real links: https://docs.pify.dev, https://github.com/pifydev, https://www.npmjs.com/org/pify, https://pi.dev, individual repos https://github.com/pifydev/NAME, npm pages https://www.npmjs.com/package/@pify/NAME.
-- No stats (stars are 0, downloads unknown), no testimonials, no fabricated claims. Package count (16) and chapter count (11) are real and verifiable.
+- No testimonials, no fabricated claims. Package count (16) and chapter count (11) are real and verifiable. Download counts come from https://api.npmjs.org/downloads/point/last-week/@pify/NAME (one request per package; scoped names are not supported by the bulk endpoint) and are revalidated hourly.
 
 ## Copy and design rules in force (antislop)
 

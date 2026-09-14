@@ -94,6 +94,7 @@ Section compositions, in order, each different from its neighbour:
 - CLI comments are the README's own: no invented behaviour.
 - Principles glossed with the README sentence that states them: verifiable, not slogans.
 - Eleven chapter links go to the real chapter URLs from the docs sitemap.
-- No stats, no testimonials, no logo bar: stars are zero and downloads unknown.
+- Download counts are the only numbers on the page and they are real: npm's downloads API, last 7 days, per package and as a total, revalidated hourly, and the total is shown only when all sixteen lookups succeed. No stars, no testimonials, no logo bar.
+- Dot-grid background at 2u (32px) in `--grid-dot`: the owner asked for pi.dev's texture, and the dots are the logo's pixel grid at page scale. Dots are non-text, kept faint (light `#d4d4d8`, dark `#2c2c31`), and command panels stay opaque so code never sits on dots.
 - Footer is one row: five links and a theme control do not need four columns.
 - Zinc neutrals rather than paper or pure black: the mark is already `#09090b`, and it keeps the page from reading as either reference.

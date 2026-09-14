@@ -1,8 +1,11 @@
+import { getWeeklyDownloads } from "@/lib/downloads";
 import { NPM_ORG_URL } from "@/lib/packages";
 import { PackagesCatalog } from "./packages-catalog";
 import { SectionRule } from "./section-rule";
 
-export function Packages() {
+export async function Packages() {
+  const downloads = await getWeeklyDownloads();
+
   return (
     <section id="packages" className="container-x py-20 md:py-28">
       <SectionRule index="03" label="Packages" />
@@ -18,7 +21,7 @@ export function Packages() {
         </p>
       </div>
       <div className="mt-10">
-        <PackagesCatalog />
+        <PackagesCatalog downloads={downloads} />
       </div>
     </section>
   );
