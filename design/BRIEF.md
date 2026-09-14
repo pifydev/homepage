@@ -25,17 +25,21 @@ pify list | pify update | pify doctor | pify init my-extension
 pi install npm:@pify/memory       # plain pi, no pify CLI
 ```
 
-## Package catalog (from pifydev/cli catalog.json v24, all status "published")
+## Package catalog (from pifydev/cli catalog.json v28, 20 packages, all status "published")
 
 | name | description |
 |---|---|
 | ask-question | Structured questions on built-in dialogs: 1-4 questions, options with trade-offs, multi-select, Other free-text |
+| autopilot | Let the main agent keep going on its own between turns: opt-in, hard-capped, never over your head (added 2026-09-14) |
 | btw | By-the-way side conversations: a read-only, codebase-aware side agent in a widget, out of the main context |
+| compact | Proactive auto-compaction: compact between turns when the context window crosses a threshold (added 2026-09-14) |
 | goal | Pin a session goal and keep the agent anchored: ordered steps, evidence-gated completion, cost-weighted budget |
 | memory | Persistent memory across sessions: two-tier markdown, FTS5 search, secret-scanned writes, consent-gated project tier |
 | plan-mode | Read-only planning with an approve-then-execute gate: enforced tool policy, tracked steps, plans as files |
 | pretty | Compact theme-aware rendering for built-in tools: summaries, highlighted reads, word-level diff emphasis |
+| recall | Full-text search across your past pi sessions: a session_search tool over the local session logs (added 2026-09-14) |
 | search | Fuzzy file finding and indexed content search: fffind and ffgrep, with a pure-TypeScript fallback |
+| shell-background | Long-running bash goes async: background:true launches detached, and commands still running after 30s auto-background (added 2026-09-14; covers pi.dev's "no background bash") |
 | skills | See the skills pi has loaded, what they cost in every request, and which ones ever fire |
 | subagent | Spawn scoped subagents: agent_run/agent_result, @agent mentions, custom agent types, ask_supervisor, results delivered not polled |
 | swarm | Run many pi agents in parallel: fan-out with per-item routing, concurrency queue, shared mailbox, results delivered not polled |
@@ -46,7 +50,7 @@ pi install npm:@pify/memory       # plain pi, no pify CLI
 | worktree | Safe git-worktree management: create/list/merge/remove with safety rails, plus /worktree enter to take the session along |
 | yolo | A safety gradient from auto-approve-everything to ask-about-anything: four modes, read-before-write, undo trail, rewind to before a prompt |
 
-Bundles: `suite` (all 16), `core` ("The everyday four: task tracking, planning, memory, and a safety gate": todo, plan-mode, memory, yolo), `agents` ("The agent stack: subagents, parallel fan-out, scripted workflows, worktrees": subagent, swarm, workflow, worktree).
+Bundles: `suite` (all 20), `core` ("The everyday four: task tracking, planning, memory, and a safety gate": todo, plan-mode, memory, yolo), `agents` ("The agent stack: subagents, parallel fan-out, scripted workflows, worktrees": subagent, swarm, workflow, worktree).
 
 Design principles that recur across the READMEs (real, quotable): plain markdown you can read and commit; enforced at the tool level, not just prompted; consent before reading repo-shipped files; no surprise model calls; measured, not assumed; undo trails; works the same in TTY and CI; Windows-first.
 

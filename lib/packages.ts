@@ -1,7 +1,11 @@
 /**
- * The Pify catalog, mirrored from catalog.json in github.com/pifydev/cli (v24).
- * Descriptions are the catalog's own words. Versions are deliberately omitted:
- * they change several times a week and would go stale on a static page.
+ * The Pify catalog, mirrored from catalog.json in github.com/pifydev/cli (v28).
+ * Descriptions are the catalog's own words, with any em dash replaced by a
+ * colon (the site's copy rule). Versions are deliberately omitted: they change
+ * several times a week and would go stale on a static page.
+ *
+ * Every count on the page (hero, headings, the cell grid, metadata, the social
+ * card) derives from this list, so adding a package here is the whole change.
  */
 
 export type BundleName = "core" | "agents";
@@ -33,10 +37,22 @@ export const packages: PifyPackage[] = [
       "Structured questions on built-in dialogs: 1-4 questions, options with trade-offs, multi-select, Other free-text",
   },
   {
+    name: "autopilot",
+    npm: "@pify/autopilot",
+    description:
+      "Let the main agent keep going on its own between turns: opt-in, hard-capped, never over your head",
+  },
+  {
     name: "btw",
     npm: "@pify/btw",
     description:
       "By-the-way side conversations: a read-only, codebase-aware side agent in a widget, out of the main context",
+  },
+  {
+    name: "compact",
+    npm: "@pify/compact",
+    description:
+      "Proactive auto-compaction: compact between turns when the context window crosses a threshold",
   },
   {
     name: "goal",
@@ -65,10 +81,22 @@ export const packages: PifyPackage[] = [
       "Compact theme-aware rendering for built-in tools: summaries, highlighted reads, word-level diff emphasis",
   },
   {
+    name: "recall",
+    npm: "@pify/recall",
+    description:
+      "Full-text search across your past pi sessions: a session_search tool over the local session logs",
+  },
+  {
     name: "search",
     npm: "@pify/search",
     description:
       "Fuzzy file finding and indexed content search: fffind and ffgrep, with a pure-TypeScript fallback",
+  },
+  {
+    name: "shell-background",
+    npm: "@pify/shell-background",
+    description:
+      "Long-running bash goes async: background:true launches detached, and commands still running after 30s auto-background",
   },
   {
     name: "skills",
@@ -150,4 +178,22 @@ export const bundles: Record<
   },
 };
 
+const WORDS = [
+  "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+  "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
+  "nineteen", "twenty",
+];
+
+/** "sixteen", "twenty-three"; falls back to digits past thirty-nine. */
+export function numberWord(n: number): string {
+  if (n >= 0 && n <= 20) return WORDS[n];
+  if (n > 20 && n < 30) return `twenty-${WORDS[n - 20]}`;
+  if (n >= 30 && n < 40) return n === 30 ? "thirty" : `thirty-${WORDS[n - 30]}`;
+  return String(n);
+}
+
+export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
 export const packageCount = packages.length;
+export const packageCountWord = numberWord(packageCount);
+export const PackageCountWord = capitalize(packageCountWord);

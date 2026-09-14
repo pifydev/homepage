@@ -1,4 +1,4 @@
-import { DOCS_URL, ORG_URL } from "@/lib/packages";
+import { DOCS_URL, ORG_URL, packageCountWord } from "@/lib/packages";
 import { InstallBlock } from "./install-block";
 
 const tabs = [
@@ -17,7 +17,7 @@ const notBuilt: { item: string; answer: string; covered: boolean }[] = [
   { item: "plan mode", answer: "plan-mode", covered: true },
   { item: "to-dos", answer: "todo, task", covered: true },
   { item: "permission popups", answer: "yolo", covered: true },
-  { item: "background bash", answer: "not covered", covered: false },
+  { item: "background bash", answer: "shell-background", covered: true },
   { item: "MCP", answer: "not covered", covered: false },
 ];
 
@@ -32,10 +32,11 @@ export function Hero() {
           <span aria-hidden="true" className="cell-stop snap" />
         </h1>
         <p className="lede mt-6 max-w-[34em] text-muted">
-          Pify is sixteen open-source extensions for the pi coding agent: plan
-          mode, subagents, persistent memory, task tracking, a safety gate with
-          an undo trail, and more. Each one is an ordinary Pi Package. Install
-          one or all sixteen; pi itself stays as small as it shipped.
+          Pify is {packageCountWord} open-source extensions for the pi coding
+          agent: plan mode, subagents, persistent memory, task tracking,
+          background shell commands, a safety gate with an undo trail, and more.
+          Each one is an ordinary Pi Package. Install one or all{" "}
+          {packageCountWord}; pi itself stays as small as it shipped.
         </p>
 
         <InstallBlock tabs={tabs} className="mt-10" />

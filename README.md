@@ -35,7 +35,7 @@ If `npm run` cannot find `node` in your shell (seen with Git Bash on Windows), c
 
 ## Content
 
-- `lib/packages.ts` mirrors `catalog.json` from [pifydev/cli](https://github.com/pifydev/cli/blob/main/catalog.json). When a package is published or its description changes, update it there and adjust the "sixteen" copy in the hero and the Packages section. Versions are intentionally not shown.
+- `lib/packages.ts` mirrors `catalog.json` from [pifydev/cli](https://github.com/pifydev/cli/blob/main/catalog.json). When a package is published or its description changes, update it there: every count on the page (hero, headings, the cell grid, metadata, the social card) derives from that list. Replace any em dash in a catalog description with a colon. Versions are intentionally not shown.
 - Brand assets live in `public/` (logos) and `app/fonts/` (Geist, Geist Mono). `app/icon.svg` is the favicon for modern browsers and follows the OS color scheme; `app/favicon.ico` (16/32/48), `app/apple-icon.png` (180) and `public/icon-192.png` are generated from `public/pify-light-512.png` with `npm run icons`. `app/manifest.ts` is the web manifest.
 - The social card (Open Graph and X `summary_large_image`, 1200x630) is rendered at build time by `app/opengraph-image.tsx` from the logo geometry, Geist, and the page headline; `app/twitter-image.tsx` reuses it. Preview at `/opengraph-image`.
 - `design/BRIEF.md` is the research the page was built from; `design/DESIGN.md` is the design direction, the palette with measured contrast, and the reason behind each decision.

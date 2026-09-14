@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { geist, geistMono } from "./fonts";
-import { SITE_URL } from "@/lib/packages";
+import { PackageCountWord, SITE_URL } from "@/lib/packages";
 import "./globals.css";
 
 const title = "Pify: Pi packages for the parts pi left out";
-const description =
-  "Sixteen MIT-licensed Pi Packages for the pi coding agent: plan mode, subagents, persistent memory, task tracking, a safety gate with an undo trail, and more. Plus the @pify/cli front door and the Pify Agent Book.";
+const description = `${PackageCountWord} MIT-licensed Pi Packages for the pi coding agent: plan mode, subagents, persistent memory, task tracking, background shell commands, a safety gate with an undo trail, and more. Plus the @pify/cli front door and the Pify Agent Book.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

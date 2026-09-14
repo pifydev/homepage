@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { PackageCountWord } from "@/lib/packages";
 
 /**
  * Social card (Open Graph and X). Built from the brand only: the pixel-grid
@@ -82,7 +83,7 @@ export default async function Image() {
               </div>
             </div>
             <div style={{ display: "flex", fontSize: 32, lineHeight: 1.35, color: MUTED, fontWeight: 400, maxWidth: 960 }}>
-              Sixteen open-source extensions for the pi coding agent, one CLI, and the Pify Agent Book.
+              {PackageCountWord} open-source extensions for the pi coding agent, one CLI, and the Pify Agent Book.
             </div>
           </div>
 

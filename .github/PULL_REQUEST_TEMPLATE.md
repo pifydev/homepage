@@ -5,5 +5,5 @@
 - [ ] Every new link resolves to a real section or URL.
 - [ ] Checked in both themes (Auto / Light / Dark) and at 320px wide with no horizontal overflow.
 - [ ] Keyboard path still works: tabs, theme control, copy buttons, bundle chips.
-- [ ] If packages changed, `lib/packages.ts` mirrors `catalog.json` and the "sixteen" copy is updated where it appears.
+- [ ] If packages changed, `lib/packages.ts` mirrors `catalog.json` (counts derive from it) and the hero ledger of pi.dev's "what we didn't build" still tells the truth.
 - [ ] `npm run typecheck` and `npm run build` pass locally.

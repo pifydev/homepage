@@ -6,6 +6,9 @@ import {
   bundles,
   NPM_ORG_URL,
   npmUrl,
+  numberWord,
+  packageCount,
+  packageCountWord,
   packages,
   repoUrl,
   type BundleName,
@@ -48,7 +51,7 @@ export function PackagesCatalog({ downloads }: { downloads: WeeklyDownloads }) {
     return [
       { id: "core", title: bundles.core.title, description: bundles.core.description, items: byBundle("core") },
       { id: "agents", title: bundles.agents.title, description: bundles.agents.description, items: byBundle("agents") },
-      { id: "by-name", title: "by name", description: "The other eight. Short names resolve to @pify/NAME.", items: rest },
+      { id: "by-name", title: "by name", description: `The other ${numberWord(rest.length)}. Short names resolve to @pify/NAME.`, items: rest },
     ];
   }, []);
 
@@ -92,9 +95,9 @@ export function PackagesCatalog({ downloads }: { downloads: WeeklyDownloads }) {
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-24 lg:max-w-xs">
             <div
-              className="grid16 [--grid16-cell:1.25rem] sm:[--grid16-cell:1.5rem]"
+              className="cellgrid [--cellgrid-cell:1.25rem] sm:[--cellgrid-cell:1.5rem]"
               role="img"
-              aria-label={`A four by four grid of sixteen cells, one per package. ${
+              aria-label={`A grid of ${packageCountWord} cells, four to a row, one per package. ${
                 active ? `${active} highlighted.` : "Hover or focus a row to light its cell."
               }`}
             >
@@ -102,7 +105,11 @@ export function PackagesCatalog({ downloads }: { downloads: WeeklyDownloads }) {
                 <span key={p.name} data-on={isLit(i) ? "true" : "false"} />
               ))}
             </div>
-            <p className="label mt-4">The logo is a 4x4 grid. So is the catalog.</p>
+            <p className="label mt-4">
+              {packageCount === 16
+                ? "The logo is a 4x4 grid. So is the catalog."
+                : `The logo is a 4x4 grid. The catalog has outgrown it: ${packageCount} cells.`}
+            </p>
 
             <div className="mt-6 border-t border-line pt-4">
               <p className="label">Last 7 days on npm</p>
@@ -112,12 +119,15 @@ export function PackagesCatalog({ downloads }: { downloads: WeeklyDownloads }) {
                     {number.format(downloads.total)}
                   </p>
                   <p className="mt-1 text-sm leading-relaxed text-muted">
-                    downloads across all sixteen packages
+                    downloads across all {packageCountWord} packages
                     {downloads.range ? `, ${downloads.range}` : ""}. Counted by{" "}
                     <a href={NPM_ORG_URL} className="link text-fg">
                       npm
                     </a>
                     , refreshed hourly.
+                    {downloads.newCount > 0
+                      ? " Packages marked new have no counts yet."
+                      : ""}
                   </p>
                 </>
               ) : (
@@ -176,6 +186,8 @@ export function PackagesCatalog({ downloads }: { downloads: WeeklyDownloads }) {
                               <span className="label whitespace-nowrap tabular-nums">
                                 {number.format(downloads.perPackage[p.name] as number)} / wk
                               </span>
+                            ) : downloads.perPackage[p.name] === "new" ? (
+                              <span className="label whitespace-nowrap text-fg">new</span>
                             ) : null}
                             <a
                               href={npmUrl(p.npm)}

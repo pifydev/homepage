@@ -7,7 +7,7 @@ Direction comes from the owner's brand assets (the pixel-grid P with one indigo 
 ## Identity
 
 - **Thesis:** pi deliberately left features out. Pify ships exactly those as ordinary Pi Packages, so pi stays minimal.
-- **Motif: the snapped-on cell.** The logo is a P on a 4x4 grid with one detached indigo square. That square is the page's only colour. It means "the thing you add": it replaces the `$` prompt in every command block, marks the active tab, sits at the left edge of every section rule, lights one cell per package in the 4x4 mini grid, and snaps into place once as the headline's full stop. Sixteen cells, sixteen packages.
+- **Motif: the snapped-on cell.** The logo is a P on a 4x4 grid with one detached indigo square. That square is the page's only colour. It means "the thing you add": it replaces the `$` prompt in every command block, marks the active tab, sits at the left edge of every section rule, lights one cell per package in the mini grid (four to a row, like the logo, as many rows as the catalog needs), and snaps into place once as the headline's full stop. One cell per package; the count comes from `lib/packages.ts`.
 - **Voice:** a maintainer talking. Short sentences, real commands, catalog descriptions verbatim, and "Not covered" where nothing exists.
 
 ## Palette
@@ -68,7 +68,7 @@ Section compositions, in order, each different from its neighbour:
 1. **Hero:** left 7 columns (eyebrow, headline with snapping cell, lede, tabbed install block, footnote, two buttons), right 4 columns: mono ledger mapping pi.dev's "What we didn't build" to Pify packages with filled and hollow cells.
 2. **Why:** sticky heading in 4 columns, three paragraphs of prose in 7.
 3. **Install:** a horizontal three-step strip, then code left (7) with README comments and a list right (5), then a one-line aside for plain pi.
-4. **Packages:** bundle chips, then a sticky 4x4 mini grid (3 columns) beside a hairline ledger of sixteen rows in three groups (9 columns). Hover or focus on a row lights its cell; a chip lights its bundle and rewrites the install line.
+4. **Packages:** bundle chips, then a sticky mini grid (4 columns) beside a hairline ledger of one row per package in three groups (8 columns). Hover or focus on a row lights its cell; a chip lights its bundle and rewrites the install line.
 5. **Principles:** full-width heading and lede, eight rules in two columns of hairline rows. Heading reads "Rules that recur across the READMEs" because not every rule appears in every README.
 6. **Book:** table of contents left (5), prose and buttons right (7).
 7. **Closing:** hero-sized heading, one install line, links, and the 4x4 grid fully lit.
@@ -89,12 +89,12 @@ Section compositions, in order, each different from its neighbour:
 - Footnote about `pify setup`: keeps the one-liner honest for a machine without pi.
 - Hero ledger with hollow cells for MCP and background bash: the argument of the page in one screen, honest about what does not exist.
 - Solid black or white primary button: keeps indigo meaning "a cell", and a large indigo button would fail AA for white text in light mode.
-- Ledger, not cards, for packages: sixteen identical cards is the pattern to avoid; rows scan faster and the mini grid carries the 16 = 16 idea.
+- Ledger, not cards, for packages: a wall of identical cards is the pattern to avoid; rows scan faster and the mini grid carries the one-cell-per-package idea (it started as 16 = 16 and grows by rows of four).
 - Bundle chips rewrite the command: the visitor leaves with `pify install core`, not a picture.
 - CLI comments are the README's own: no invented behaviour.
 - Principles glossed with the README sentence that states them: verifiable, not slogans.
 - Eleven chapter links go to the real chapter URLs from the docs sitemap.
-- Download counts are the only numbers on the page and they are real: npm's downloads API, last 7 days, per package and as a total, revalidated hourly, and the total is shown only when all sixteen lookups succeed. No stars, no testimonials, no logo bar.
+- Download counts are the only numbers on the page and they are real: npm's downloads API, last 7 days, per package and as a total, revalidated hourly, and the total is shown only when every lookup succeeds. No stars, no testimonials, no logo bar.
 - Dot-grid background at 2u (32px) in `--grid-dot`: the owner asked for pi.dev's texture, and the dots are the logo's pixel grid at page scale. Dots are non-text, kept faint (light `#d4d4d8`, dark `#2c2c31`), and command panels stay opaque so code never sits on dots.
 - Footer is one row: five links and a theme control do not need four columns.
 - Zinc neutrals rather than paper or pure black: the mark is already `#09090b`, and it keeps the page from reading as either reference.
