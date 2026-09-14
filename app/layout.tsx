@@ -25,22 +25,20 @@ export const metadata: Metadata = {
     "Pi Agent SDK",
   ],
   authors: [{ name: "Pify", url: "https://github.com/pifydev" }],
+  // Images and icons come from the file conventions in app/:
+  // opengraph-image.tsx, twitter-image.tsx, icon.svg, favicon.ico, apple-icon.png.
   openGraph: {
     type: "website",
     url: SITE_URL,
     siteName: "Pify",
     title,
     description,
-    images: [{ url: "/og-image.png", width: 512, height: 512, alt: "Pify logo" }],
+    locale: "en_US",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title,
     description,
-    images: ["/og-image.png"],
-  },
-  icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
   alternates: { canonical: SITE_URL },
 };
